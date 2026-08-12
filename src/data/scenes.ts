@@ -1,6 +1,7 @@
 import type { Pack, Scene } from "../types";
 
 const GTV = "https://storage.googleapis.com/gtv-videos-bucket/sample";
+const IA = "https://archive.org/download/Incompetech/mp3-royaltyfree";
 
 export const packs: Pack[] = [
   { id: "melodrama", name: "Melodrama Pack", tint: "magenta" },
@@ -8,7 +9,13 @@ export const packs: Pack[] = [
   { id: "roadtrip", name: "Roadtrip Pack", tint: "amber" },
 ];
 
-export const scenes: Scene[] = [
+const MUSIC_BY_PACK: Record<string, { url: string; label: string }> = {
+  melodrama: { url: `${IA}/Ashton%20Manor.mp3`, label: "Ashton Manor (instrumental score)" },
+  action: { url: `${IA}/Action.mp3`, label: "Action (instrumental score)" },
+  roadtrip: { url: `${IA}/Americana.mp3`, label: "Americana (instrumental score)" },
+};
+
+const RAW_SCENES: Omit<Scene, "musicUrl" | "musicLabel">[] = [
   {
     id: "s01",
     packId: "melodrama",
@@ -82,3 +89,12 @@ export const scenes: Scene[] = [
     durationLabel: "0:05",
   },
 ];
+
+export const scenes: Scene[] = RAW_SCENES.map((scene) => {
+  const music = MUSIC_BY_PACK[scene.packId];
+  return {
+    ...scene,
+    musicUrl: music?.url,
+    musicLabel: music?.label,
+  };
+});

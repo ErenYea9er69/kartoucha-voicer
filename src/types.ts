@@ -5,6 +5,11 @@ export interface Scene {
   caption: string;
   videoUrl: string;
   durationLabel: string;
+  /** Music-and-effects bed: the scene's score with no dialogue on it.
+   *  When set, the studio keeps this playing under the mic and mutes
+   *  the clip's own baked-in audio, so only the voice gets replaced. */
+  musicUrl?: string;
+  musicLabel?: string;
 }
 
 export interface Pack {
